@@ -153,17 +153,13 @@ if __name__ == '__main__':
         matte = np.clip((mask_border_weight * matte_hi) + ((1 - mask_border_weight) * matte_lo), 0, 255)
 
         return matte
-
-    
-    # with Path(args.dir_path).open(encoding='UTF-16') as f:
-    #     paths = [Path(l.rstrip('\n')) for l in f.readlines()]
     
     piped_data = sys.stdin.read()
     lines = piped_data.splitlines()
-    paths = [line for line in lines]
+    paths = [Path(l.rstrip('\n')) for l in lines]
 
     for p in paths:
-        # print(p)
+        # print(p.resolve())
         matte = create_matte(str(p.resolve()))
         output_path = p.parent / "mask" / (p.stem + '.PNG')
         Path(output_path).parent.mkdir(exist_ok=True, parents=True)
